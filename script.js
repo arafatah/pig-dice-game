@@ -89,7 +89,7 @@ btnHold.addEventListener('click', function () {
 btnNew.addEventListener('click', init);
 */
 
-// Second time --- 
+// Second time ---
 /* 
 const player0El = document.querySelector('.player--0');
 const player1El = document.querySelector('.player--1');
@@ -177,30 +177,24 @@ btnHold.addEventListener('click', function () {
 btnNew.addEventListener('click', init);
  */
 
-// Third time ---- 
+// Third time ----
 /**
- * There will be two player. 
- * Clicking on the dice will be role the dice and genarate a random number between 1-6. 
- * If the the number is = 1, then swith the player and delete the current score. While switching player, the background color will also change. 
- * Or if that's not 1 then, will show the score in view and show the dice equally to the score. 
- * If user click on hold button then this score will hold on the current position. 
- * If hold once then change the player. If he get 1 until the winning result then it will delete the score as well but holdin score will not be affected. After winning the rolling will disable. 
- * If win then change the background color and text color. 
- * New Game will, make the score, current score, active player, playing all zero. Remove dice from display, player win, player active, zero. 
+ * There will be two player.
+ * Clicking on the dice will be role the dice and genarate a random number between 1-6.
+ * If the the number is = 1, then swith the player and delete the current score. While switching player, the background color will also change.
+ * Or if that's not 1 then, will show the score in view and show the dice equally to the score.
+ * If user click on hold button then this score will hold on the current position.
+ * If hold once then change the player. If he get 1 until the winning result then it will delete the score as well but holdin score will not be affected. After winning the rolling will disable.
+ * If win then change the background color and text color.
+ * New Game will, make the score, current score, active player, playing all zero. Remove dice from display, player win, player active, zero.
  */
 
-const playerElements = [
-  document.querySelector('.player--0'),
-  document.querySelector('.player--1')
-];
-const currentElements = [
-  document.getElementById('current--0'),
-  document.getElementById('current--1')
-];
-const scoreElements = [
-  document.getElementById('score--0'),
-  document.getElementById('score--1')
-];
+const player0El = document.querySelector('.player--0');
+const player1El = document.querySelector('.player--1');
+const current0El = document.getElementById('current--0');
+const current1El = document.getElementById('current--1');
+const score0El = document.getElementById('score--0');
+const score1El = document.getElementById('score--1');
 
 const diceEl = document.querySelector('.dice');
 const btnRoll = document.querySelector('.btn--roll');
@@ -215,22 +209,24 @@ const init = () => {
   activePlayer = 0;
   playing = true;
 
-  scoreElements.forEach(el => (el.textContent = 0));
-  currentElements.forEach(el => (el.textContent = 0));
+  score0El.textContent = 0;
+  score1El.textContent = 0;
+  current0El.textContent = 0;
+  current1El.textContent = 0;
 
   diceEl.classList.add('hidden');
-  playerElements.forEach(playerEl => {
-    playerEl.classList.remove('player--winner');
-    playerEl.classList.remove('player--active');
-  });
-  playerElements[0].classList.add('player--active');
+  player0El.classList.remove('player--winner');
+  player1El.classList.remove('player--winner');
+  player0El.classList.add('player--active');
+  player1El.classList.remove('player--active');
 };
 
 const switchPlayer = () => {
-  currentElements[activePlayer].textContent = 0;
+  document.getElementById(`current--${activePlayer}`).textContent = 0;
   currentScore = 0;
   activePlayer = activePlayer === 0 ? 1 : 0;
-  playerElements.forEach(playerEl => playerEl.classList.toggle('player--active'));
+  player0El.classList.toggle('player--active');
+  player1El.classList.toggle('player--active');
 };
 
 btnRoll.addEventListener('click', () => {
@@ -242,7 +238,7 @@ btnRoll.addEventListener('click', () => {
 
     if (dice !== 1) {
       currentScore += dice;
-      currentElements[activePlayer].textContent = currentScore;
+      document.getElementById(`current--${activePlayer}`).textContent = currentScore;
     } else {
       switchPlayer();
     }
@@ -252,13 +248,13 @@ btnRoll.addEventListener('click', () => {
 btnHold.addEventListener('click', () => {
   if (playing) {
     scores[activePlayer] += currentScore;
-    scoreElements[activePlayer].textContent = scores[activePlayer];
+    document.getElementById(`score--${activePlayer}`).textContent = scores[activePlayer];
 
     if (scores[activePlayer] >= 20) {
       playing = false;
       diceEl.classList.add('hidden');
-      playerElements[activePlayer].classList.add('player--winner');
-      playerElements[activePlayer].classList.remove('player--active');
+      document.querySelector(`.player--${activePlayer}`).classList.add('player--winner');
+      document.querySelector(`.player--${activePlayer}`).classList.remove('player--active');
     } else {
       switchPlayer();
     }
