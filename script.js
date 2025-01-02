@@ -173,3 +173,15 @@ btnHold.addEventListener('click', function () {
 });
 
 btnNew.addEventListener('click', init);
+
+
+/**
+ * There will be two player. 
+ * Clicking on the dice will be role the dice and genarate a random number between 1-6. 
+ * If the the number is = 1, then swith the player and delete the current score. While switching player, the background color will also change. 
+ * Or if that's not 1 then, will show the score in view and show the dice equally to the score. 
+ * If user click on hold button then this score will hold on the current position. 
+ * If hold once then change the player. If he get 1 until the winning result then it will delete the score as well but holdin score will not be affected. After winning the rolling will disable. 
+ * If win then change the background color and text color. 
+ * New Game will, make the score, current score, active player, playing all zero. Remove dice from display, player win, player active, zero. 
+ */
