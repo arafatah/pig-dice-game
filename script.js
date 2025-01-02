@@ -89,6 +89,8 @@ btnHold.addEventListener('click', function () {
 btnNew.addEventListener('click', init);
 */
 
+// Second time --- 
+/* 
 const player0El = document.querySelector('.player--0');
 const player1El = document.querySelector('.player--1');
 const current0El = document.getElementById('current--0');
@@ -173,8 +175,9 @@ btnHold.addEventListener('click', function () {
 });
 
 btnNew.addEventListener('click', init);
+ */
 
-
+// Third time ---- 
 /**
  * There will be two player. 
  * Clicking on the dice will be role the dice and genarate a random number between 1-6. 
@@ -185,3 +188,84 @@ btnNew.addEventListener('click', init);
  * If win then change the background color and text color. 
  * New Game will, make the score, current score, active player, playing all zero. Remove dice from display, player win, player active, zero. 
  */
+
+const playerElements = [
+  document.querySelector('.player--0'),
+  document.querySelector('.player--1')
+];
+const currentElements = [
+  document.getElementById('current--0'),
+  document.getElementById('current--1')
+];
+const scoreElements = [
+  document.getElementById('score--0'),
+  document.getElementById('score--1')
+];
+
+const diceEl = document.querySelector('.dice');
+const btnRoll = document.querySelector('.btn--roll');
+const btnHold = document.querySelector('.btn--hold');
+const btnNew = document.querySelector('.btn--new');
+
+let scores, currentScore, activePlayer, playing;
+
+const init = () => {
+  scores = [0, 0];
+  currentScore = 0;
+  activePlayer = 0;
+  playing = true;
+
+  scoreElements.forEach(el => (el.textContent = 0));
+  currentElements.forEach(el => (el.textContent = 0));
+
+  diceEl.classList.add('hidden');
+  playerElements.forEach(playerEl => {
+    playerEl.classList.remove('player--winner');
+    playerEl.classList.remove('player--active');
+  });
+  playerElements[0].classList.add('player--active');
+};
+
+const switchPlayer = () => {
+  currentElements[activePlayer].textContent = 0;
+  currentScore = 0;
+  activePlayer = activePlayer === 0 ? 1 : 0;
+  playerElements.forEach(playerEl => playerEl.classList.toggle('player--active'));
+};
+
+btnRoll.addEventListener('click', () => {
+  if (playing) {
+    const dice = Math.trunc(Math.random() * 6) + 1;
+
+    diceEl.classList.remove('hidden');
+    diceEl.src = `dice-${dice}.png`;
+
+    if (dice !== 1) {
+      currentScore += dice;
+      currentElements[activePlayer].textContent = currentScore;
+    } else {
+      switchPlayer();
+    }
+  }
+});
+
+btnHold.addEventListener('click', () => {
+  if (playing) {
+    scores[activePlayer] += currentScore;
+    scoreElements[activePlayer].textContent = scores[activePlayer];
+
+    if (scores[activePlayer] >= 20) {
+      playing = false;
+      diceEl.classList.add('hidden');
+      playerElements[activePlayer].classList.add('player--winner');
+      playerElements[activePlayer].classList.remove('player--active');
+    } else {
+      switchPlayer();
+    }
+  }
+});
+
+btnNew.addEventListener('click', init);
+
+// Initialize the game
+init();
